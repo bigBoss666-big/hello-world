@@ -1,4 +1,4 @@
-# hello-world
+![image](https://github.com/user-attachments/assets/9c9c60a2-0c6b-4b73-be5b-92592382545c)# hello-world
 练手
 
 
@@ -167,3 +167,41 @@ public class CodeCache {
                 '}';
     }
 }
+
+
+
+
+//日志用到的辅助类代码
+
+package com.example.utils;
+
+import javax.servlet.http.HttpServletRequest;
+
+public class IpUtils {
+
+    //因为做登录日志，需要获取用户ip，所以添加这个辅助类
+    //一般情况下可以从远程标识中找到请求头的信息
+    public static String getIpAddr(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Forwarded-For");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Real-IP");
+        }
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
+    }
+
+}
+
+
